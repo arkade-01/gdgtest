@@ -48,6 +48,24 @@ const Pay = () => {
         }
     }
 
+const withdraw = async (amount) => {
+    try {
+        setIsWithdrawing(true);
+        const contract = await connect();
+        const weiAmount = toWei(amount);
+        const tx = await contract.withdraw(weiAmount);
+        await tx.wait();
+        return true;
+    } catch (error) {
+        console.error("Error withdrawing funds", error);
+        throw error;
+    } finally {
+        setIsWithdrawing(false);
+    }
+}
+
+
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
